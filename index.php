@@ -18,14 +18,68 @@ function whatIsHappening() {
 
 require 'classes/Post.php';
 require 'classes/PostLoader.php';
+session_start();
 
+$error = 'border-danger';
+$title = $message = $author = "";
 $titleError = $messageError = $authorError = "";
+$titleStyle = $messageStyle = $authorStyle = "";
+
+if (isset($_SESSION['title'])){
+    $title = $_SESSION['title'];
+}
+
+if (isset($_SESSION['author'])){
+    $author = $_SESSION['author'];
+}
+
+if (isset($_SESSION['message'])){
+    $message = $_SESSION['message'];
+}
+
 //image this code could be a complex query
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
-    if (!isset($_POST['title'])){
-        $titleError = 'Title is required';
+    if (empty($_POST['title'])){
+        $titleError = 'Title is required!';
+        $titleStyle = $error;
+    } else {
+        $title = inputCheck($_POST["title"]);
+        if (!preg_match("/^[a-zA-Z-' ]*$/", $title)){
+            $titleError = 'Title can only contain letters and spaces!';
+            $titleStyle = $error;
+        } else { $_SESSION['title'] = $title; }
+    }
+
+    if (empty($_POST['author'])){
+        $authorError = 'Name is required!';
+        $authorStyle = $error;
+    } else {
+        $author = inputCheck($_POST["author"]);
+        if (!preg_match("/^[a-zA-Z-' ]*$/", $author)){
+            $authorError = 'Name can only contain letters and spaces!';
+            $authorStyle = $error;
+        } else { $_SESSION['author'] = $author; }
+    }
+
+    if (empty($_POST['message'])){
+        $messageError = 'Message is required!';
+        $messageStyle = $error;
+    } else {
+        $message = inputCheck($_POST["message"]);
+        if (!preg_match("/^[a-zA-Z-' ]*$/", $message)){
+            $messageError = 'Message can only contain letters and spaces!';
+            $messageStyle = $error;
+        } else { $_SESSION['message'] = $message; }
     }
 }
+
+function inputCheck($input){
+    $input = trim($input);
+    $input = stripslashes($input);
+    $input = htmlspecialchars($input);
+    return $input;
+}
+//whatIsHappening();
 $post = new Post('new post', 'hello world', 'xander');
 //end controller
 //start view
@@ -44,11 +98,12 @@ $post = new Post('new post', 'hello world', 'xander');
 </head>
 <body>
 <form method="post" id="form">
-    <input type="text" name="title" placeholder="Title"><br>
+    * = required <br>
+    <input type="text" name="title" placeholder="Title" value="<?php echo $title ?>" class="border rounded <?php echo $titleStyle ?>"><br>
     <span>*<?php echo $titleError ?></span><br>
-    <input type="text" name="author" placeholder="Name"><br>
+    <input type="text" name="author" placeholder="Name" value="<?php echo $author ?>" class="border rounded <?php echo $authorStyle ?>"><br>
     <span>*<?php echo $authorError ?></span><br>
-    <input type="text" name="message" placeholder="Message"><br>
+    <input type="text" name="message" placeholder="Message" value="<?php echo $message ?>" class="border rounded <?php echo $messageStyle ?>"><br>
     <span>*<?php echo $messageError ?></span><br>
     <input type="submit" value="Submit">
 </form>
