@@ -20,6 +20,12 @@ require 'classes/Post.php';
 require 'classes/PostLoader.php';
 session_start();
 
+if (!isset($_SESSION['posts'])){
+    $posts = $_SESSION['posts'];
+} else {
+    $posts = new PostLoader();
+}
+
 $error = 'border-danger';
 $title = $message = $author = "";
 $titleError = $messageError = $authorError = "";
@@ -37,7 +43,6 @@ if (isset($_SESSION['message'])){
     $message = $_SESSION['message'];
 }
 
-//image this code could be a complex query
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
     if (empty($_POST['title'])){
         $titleError = 'Title is required!';
@@ -71,6 +76,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
             $messageStyle = $error;
         } else { $_SESSION['message'] = $message; }
     }
+    if (empty($author && $message && $title)){
+        $posts->newPost($title, $message, $author);
+    }
+    $_SESSION['posts'] = $posts;
 }
 
 function inputCheck($input){
@@ -80,9 +89,7 @@ function inputCheck($input){
     return $input;
 }
 //whatIsHappening();
-$post = new Post($title, $message, $author);
-//end controller
-//start view
+
 ?>
 <!doctype html>
 <html lang="en">
