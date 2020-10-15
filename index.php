@@ -20,7 +20,7 @@ require 'classes/Post.php';
 require 'classes/PostLoader.php';
 session_start();
 
-if (!isset($_SESSION['posts'])){
+if (isset($_SESSION['posts'])){
     $posts = $_SESSION['posts'];
 } else {
     $posts = new PostLoader();
@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
             $messageStyle = $error;
         } else { $_SESSION['message'] = $message; }
     }
-    if (empty($author && $message && $title)){
+    if (empty($authorError && $messageError && $titleError)){
         $posts->newPost($title, $message, $author);
     }
     $_SESSION['posts'] = $posts;
@@ -88,7 +88,7 @@ function inputCheck($input){
     $input = htmlspecialchars($input);
     return $input;
 }
-//whatIsHappening();
+whatIsHappening();
 
 ?>
 <!doctype html>
@@ -114,12 +114,12 @@ function inputCheck($input){
     <span>*<?php echo $messageError ?></span><br>
     <input type="submit" value="Submit">
 </form>
-<?php
-echo $post->getAuthor() . '<br>';
-echo $post->getDate() . '<br>';
-echo $post->getTitle() . '<br>';
-echo $post->getContent();
-?>
+<h1>Guestbook</h1>
+<div>
+    <?php
+    $posts->printPosts();
+    ?>
+</div>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>

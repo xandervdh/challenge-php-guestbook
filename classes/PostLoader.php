@@ -17,11 +17,10 @@ class PostLoader
 
     public function printPosts()
     {
-        for ($i = 0; $i < count($this->posts); $i++){
-            echo $this->posts[$i]->getAuthor();
-            echo $this->posts[$i]->getTitle();
-            echo $this->posts[$i]->getContent();
-            echo $this->posts[$i]->getDate();
+        for ($i = count($this->posts)-1; $i >= 0 ; $i--){
+            echo '<h2>' . $this->posts[$i]->getTitle() . '</h2><br>
+            <span>' . $this->posts[$i]->getAuthor() . ' ' . $this->posts[$i]->getDate() . '</span>
+            <div class="content">' . $this->posts[$i]->getContent() . '</div><br>';
         }
     }
 }
