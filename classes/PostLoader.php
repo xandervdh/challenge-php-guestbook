@@ -13,6 +13,9 @@ class PostLoader
     public function newPost(string $title, string $content, string $author)
     {
         array_push($this->posts, new Post($title, $content, $author));
+        if (count($this->posts) > 20){
+            array_shift($this->posts);
+        }
     }
 
     public function printPosts()

@@ -26,6 +26,7 @@ if (isset($_SESSION['posts'])){
     $posts = new PostLoader();
 }
 
+$success = "";
 $error = 'border-danger';
 $title = $message = $author = "";
 $titleError = $messageError = $authorError = "";
@@ -78,6 +79,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     if (empty($authorError && $messageError && $titleError)){
         $posts->newPost($title, $message, $author);
+
+        $success = '<div class="alert alert-success" role="alert"> Message sent </div>';
     }
     $_SESSION['posts'] = $posts;
 }
@@ -104,13 +107,17 @@ whatIsHappening();
     <title>Guestbook</title>
 </head>
 <body>
-<form method="post" id="form">
+<?php echo $success; ?>
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" id="form">
     * = required <br>
-    <input type="text" name="title" placeholder="Title" value="<?php echo $title ?>" class="border rounded <?php echo $titleStyle ?>"><br>
+    <label for="title" id="title"> Title </label><br>
+    <input type="text" id="title" name="title" placeholder="Title" value="<?php echo $title ?>" class="border rounded <?php echo $titleStyle ?>"><br>
     <span>*<?php echo $titleError ?></span><br>
-    <input type="text" name="author" placeholder="Name" value="<?php echo $author ?>" class="border rounded <?php echo $authorStyle ?>"><br>
+    <label for="author" id="author"> Name </label><br>
+    <input type="text" id="author" name="author" placeholder="Name" value="<?php echo $author ?>" class="border rounded <?php echo $authorStyle ?>"><br>
     <span>*<?php echo $authorError ?></span><br>
-    <input type="text" name="message" placeholder="Message" value="<?php echo $message ?>" class="border rounded <?php echo $messageStyle ?>"><br>
+    <label for="message" id="message"> Message </label><br>
+    <input type="text" id="message" name="message" placeholder="Message" value="<?php echo $message ?>" class="border rounded <?php echo $messageStyle ?>"><br>
     <span>*<?php echo $messageError ?></span><br>
     <input type="submit" value="Submit">
 </form>
