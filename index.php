@@ -5,10 +5,27 @@ ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
+function whatIsHappening() {
+    echo '<h2>$_GET</h2>';
+    var_dump($_GET);
+    echo '<h2>$_POST</h2>';
+    var_dump($_POST);
+    echo '<h2>$_COOKIE</h2>';
+    var_dump($_COOKIE);
+    echo '<h2>$_SESSION</h2>';
+    var_dump($_SESSION);
+}
+
 require 'classes/Post.php';
 require 'classes/PostLoader.php';
 
+$titleError = $messageError = $authorError = "";
 //image this code could be a complex query
+if ($_SERVER["REQUEST_METHOD"] == "POST"){
+    if (!isset($_POST['title'])){
+        $titleError = 'Title is required';
+    }
+}
 $post = new Post('new post', 'hello world', 'xander');
 //end controller
 //start view
@@ -22,13 +39,17 @@ $post = new Post('new post', 'hello world', 'xander');
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="style/style.css" type="text/css">
     <title>Guestbook</title>
 </head>
 <body>
-<form method="post">
-    <input type="text" name="title" placeholder="Title">
-    <input type="text" name="author" placeholder="Name">
-    <input type="text" name="message" placeholder="Message">
+<form method="post" id="form">
+    <input type="text" name="title" placeholder="Title"><br>
+    <span>*<?php echo $titleError ?></span><br>
+    <input type="text" name="author" placeholder="Name"><br>
+    <span>*<?php echo $authorError ?></span><br>
+    <input type="text" name="message" placeholder="Message"><br>
+    <span>*<?php echo $messageError ?></span><br>
     <input type="submit" value="Submit">
 </form>
 <?php echo $post->getDate(); ?>
