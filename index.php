@@ -9,8 +9,7 @@ require 'classes/Post.php';
 require 'classes/PostLoader.php';
 
 //image this code could be a complex query
-$users = ['John Doe', 'Joe Doe', 'John Smith', 'An Onymous'];
-$articles = ['Terror over london', 'Football: a useless hobby?', 'Economic crisis ahead, says expert', 'Fortis is Fortwas'];
+$post = new Post('new post', 'hello world', 'xander');
 //end controller
 //start view
 ?>
@@ -26,11 +25,13 @@ $articles = ['Terror over london', 'Football: a useless hobby?', 'Economic crisi
     <title>Guestbook</title>
 </head>
 <body>
-<form method="get">
-    <input type="text" name="message" placeholder="What's your message?">
+<form method="post">
+    <input type="text" name="title" placeholder="Title">
+    <input type="text" name="author" placeholder="Name">
+    <input type="text" name="message" placeholder="Message">
     <input type="submit" value="Submit">
 </form>
-
+<?php echo $post->getDate(); ?>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
