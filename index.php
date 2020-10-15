@@ -50,10 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $titleStyle = $error;
     } else {
         $title = inputCheck($_POST["title"]);
-        if (!preg_match("/^[a-zA-Z-' ]*$/", $title)){
-            $titleError = 'Title can only contain letters and spaces!';
-            $titleStyle = $error;
-        } else { $_SESSION['title'] = $title; }
+        $_SESSION['title'] = $title;
     }
 
     if (empty($_POST['author'])){
@@ -72,12 +69,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $messageStyle = $error;
     } else {
         $message = inputCheck($_POST["message"]);
-        if (!preg_match("/^[a-zA-Z-' ]*$/", $message)){
-            $messageError = 'Message can only contain letters and spaces!';
-            $messageStyle = $error;
-        } else { $_SESSION['message'] = $message; }
+        $_SESSION['message'] = $message;
     }
-    if (empty($authorError && $messageError && $titleError)){
+    if ($authorError === "" && $messageError === "" && $titleError === ""){
         $posts->newPost($title, $message, $author);
 
         $success = '<div class="alert alert-success" role="alert"> Message sent </div>';
@@ -91,7 +85,7 @@ function inputCheck($input){
     $input = htmlspecialchars($input);
     return $input;
 }
-whatIsHappening();
+//whatIsHappening();
 
 ?>
 <!doctype html>
