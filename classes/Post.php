@@ -17,6 +17,11 @@ class Post
         $this->date->setTimezone(new DateTimeZone('Europe/Brussels'));
     }
 
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
+
     public function getTitle(): string
     {
         return $this->title;

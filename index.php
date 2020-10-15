@@ -85,7 +85,6 @@ function inputCheck($input){
     $input = htmlspecialchars($input);
     return $input;
 }
-//whatIsHappening();
 
 ?>
 <!doctype html>
