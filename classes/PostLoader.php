@@ -26,4 +26,8 @@ class PostLoader
             <div class="content">' . $this->posts[$i]->getContent() . '</div><br>';
         }
     }
+
+    public function getPosts(){
+        return $this->posts;
+    }
 }
