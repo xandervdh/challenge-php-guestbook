@@ -80,7 +80,7 @@ function inputCheck($input){
     return $input;
 }
 //whatIsHappening();
-$post = new Post('new post', 'hello world', 'xander');
+$post = new Post($title, $message, $author);
 //end controller
 //start view
 ?>
@@ -107,7 +107,12 @@ $post = new Post('new post', 'hello world', 'xander');
     <span>*<?php echo $messageError ?></span><br>
     <input type="submit" value="Submit">
 </form>
-<?php echo $post->getDate(); ?>
+<?php
+echo $post->getAuthor() . '<br>';
+echo $post->getDate() . '<br>';
+echo $post->getTitle() . '<br>';
+echo $post->getContent();
+?>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
