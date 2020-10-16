@@ -69,7 +69,7 @@ function inputCheck($input){
     $input = htmlspecialchars($input);
     return $input;
 }
-whatIsHappening();
+
 $_SESSION['posts'] = $posts;
 ?>
 <!doctype html>
