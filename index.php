@@ -61,7 +61,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
         $success = '<div class="alert alert-success" role="alert"> Message sent </div>';
     }
-    $_SESSION['posts'] = $posts;
 }
 
 function inputCheck($input){
@@ -71,6 +70,7 @@ function inputCheck($input){
     return $input;
 }
 whatIsHappening();
+$_SESSION['posts'] = $posts;
 ?>
 <!doctype html>
 <html lang="en">
