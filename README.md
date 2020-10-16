@@ -8,6 +8,7 @@ making a guestbook where you can add a new message and see the last 20 messages
 - [x] the posts are sorted from newest to oldest
 - [x] Make sure the script can handle site defacement attacks: use htmlspecialchars()
 - [x] only show the last 20 posts
+- [x] put and get the posts in a json file
 
 ### nice to have 
 - [ ] profanity filter
