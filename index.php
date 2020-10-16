@@ -32,16 +32,16 @@ $title = $message = $author = "";
 $titleError = $messageError = $authorError = "";
 $titleStyle = $messageStyle = $authorStyle = "";
 
-if (isset($_SESSION['title'])){
-    $title = $_SESSION['title'];
+if (isset($_COOKIE['title'])){
+    $title = $_COOKIE['title'];
 }
 
-if (isset($_SESSION['author'])){
-    $author = $_SESSION['author'];
+if (isset($_COOKIE['author'])){
+    $author = $_COOKIE['author'];
 }
 
-if (isset($_SESSION['message'])){
-    $message = $_SESSION['message'];
+if (isset($_COOKIE['message'])){
+    $message = $_COOKIE['message'];
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $titleStyle = $error;
     } else {
         $title = inputCheck($_POST["title"]);
-        $_SESSION['title'] = $title;
+        setcookie('title', $title, time()+(86400 * 30));
     }
 
     if (empty($_POST['author'])){
@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         if (!preg_match("/^[a-zA-Z-' ]*$/", $author)){
             $authorError = 'Name can only contain letters and spaces!';
             $authorStyle = $error;
-        } else { $_SESSION['author'] = $author; }
+        } else { setcookie('author', $author, time()+(86400 * 30)); }
     }
 
     if (empty($_POST['message'])){
@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $messageStyle = $error;
     } else {
         $message = inputCheck($_POST["message"]);
-        $_SESSION['message'] = $message;
+        setcookie('$message', $message, time()+(86400 * 30));
     }
     if ($authorError === "" && $messageError === "" && $titleError === ""){
         $posts->newPost($title, $message, $author);
@@ -85,7 +85,7 @@ function inputCheck($input){
     $input = htmlspecialchars($input);
     return $input;
 }
-
+whatIsHappening();
 ?>
 <!doctype html>
 <html lang="en">
