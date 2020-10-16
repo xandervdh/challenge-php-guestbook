@@ -32,25 +32,12 @@ $title = $message = $author = "";
 $titleError = $messageError = $authorError = "";
 $titleStyle = $messageStyle = $authorStyle = "";
 
-if (isset($_COOKIE['title'])){
-    $title = $_COOKIE['title'];
-}
-
-if (isset($_COOKIE['author'])){
-    $author = $_COOKIE['author'];
-}
-
-if (isset($_COOKIE['message'])){
-    $message = $_COOKIE['message'];
-}
-
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
     if (empty($_POST['title'])){
         $titleError = 'Title is required!';
         $titleStyle = $error;
     } else {
         $title = inputCheck($_POST["title"]);
-        setcookie('title', $title, time()+(86400 * 30));
     }
 
     if (empty($_POST['author'])){
@@ -61,15 +48,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         if (!preg_match("/^[a-zA-Z-' ]*$/", $author)){
             $authorError = 'Name can only contain letters and spaces!';
             $authorStyle = $error;
-        } else { setcookie('author', $author, time()+(86400 * 30)); }
+        }
     }
-
     if (empty($_POST['message'])){
         $messageError = 'Message is required!';
         $messageStyle = $error;
     } else {
         $message = inputCheck($_POST["message"]);
-        setcookie('$message', $message, time()+(86400 * 30));
     }
     if ($authorError === "" && $messageError === "" && $titleError === ""){
         $posts->newPost($title, $message, $author);
